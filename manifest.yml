@@ -1,0 +1,4 @@
+---
+applications:
+- name: hello-world-flask
+  memory: 128M
