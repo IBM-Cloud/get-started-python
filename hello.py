@@ -4,10 +4,9 @@ import os
 
 app = Flask(__name__)
 
-if os.getenv("VCAP_APP_PORT"):
-    port = int(os.getenv("VCAP_APP_PORT"))
-else:
-    port = 8080
+# On Bluemix, get the port number from the environment variable VCAP_APP_PORT
+# When running this app on the local machine, default the port to 8080
+port = int(os.getenv('VCAP_APP_PORT', 8080))
 
 @app.route('/')
 def hello_world():
