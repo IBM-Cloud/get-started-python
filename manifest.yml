@@ -1,4 +1,7 @@
 ---
 applications:
 - name: hello-world-flask
+  host: hello-world-flask-${random-word}
   memory: 128M
+  instances: 1
+  path: .
