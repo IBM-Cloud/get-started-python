@@ -1,5 +1,4 @@
-"""Cloud Foundry test"""
-from flask import Flask
+from flask import Flask, render_template, request
 import cf_deployment_tracker
 import os
 
@@ -14,8 +13,13 @@ port = int(os.getenv('PORT', 8080))
 
 
 @app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/api/visitors', methods=['GET', 'POST'])
 def hello_world():
-    return 'Hello World! I am running on port ' + str(port)
+    content = request.json
+    return "Hello " + content['name'] + "!"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
