@@ -43,6 +43,12 @@ port = int(os.getenv('PORT', 8080))
 def home():
     return render_template('index.html')
 
+# /* Endpoint to greet and add a new visitor to database.
+# * Send a POST request to localhost:8080/api/visitors with body
+# * {
+# * 	"name": "Bob"
+# * }
+# */
 @app.route('/api/visitors', methods=['GET'])
 def get_visitor():
     if client:
@@ -50,7 +56,18 @@ def get_visitor():
     else:
         print('No database')
         return jsonify([])
-        
+
+# /**
+#  * Endpoint to get a JSON array of all the visitors in the database
+#  * REST API example:
+#  * <code>
+#  * GET http://localhost:8080/api/visitors
+#  * </code>
+#  *
+#  * Response:
+#  * [ "Bob", "Jane" ]
+#  * @return An array of all the visitor names
+#  */
 @app.route('/api/visitors', methods=['POST'])
 def put_visitor():
     user = request.json['name']
@@ -69,4 +86,3 @@ def shutdown():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)
-
