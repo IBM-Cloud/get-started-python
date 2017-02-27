@@ -1,16 +1,14 @@
 # Getting Started with Python on Bluemix
 
-![Bluemix Deployments](https://deployment-tracker.mybluemix.net/stats/4f7252bee5e6aa6f1611b130ee63dd98/badge.svg)
-
-To get started, we'll take you through a sample Python Flask app, help you set up a development environment and deploy to {{site.data.keyword.Bluemix}}.
+To get started, we'll take you through a sample Python Flask app, help you set up a development environment, deploy to Bluemix and add a Cloudant database.
 
 ## Prerequisites
 
 You'll need the following:
-* [{{site.data.keyword.Bluemix_notm}} account](https://console.ng.bluemix.net/registration/)
-* [Cloud Foundry CLI ![External link icon](../../icons/launch-glyph.svg "External link icon")](https://github.com/cloudfoundry/cli#downloads)
-* [Git ![External link icon](../../icons/launch-glyph.svg "External link icon")](https://git-scm.com/downloads)
-* [Python ![External link icon](../../icons/launch-glyph.svg "External link icon")](https://www.python.org/downloads/)
+* [Bluemix account](https://console.ng.bluemix.net/registration/)
+* [Cloud Foundry CLI](https://github.com/cloudfoundry/cli#downloads)
+* [Git](https://git-scm.com/downloads)
+* [Python](https://www.python.org/downloads/)
 
 ## 1. Clone the sample app
 
