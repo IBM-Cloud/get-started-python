@@ -14,14 +14,43 @@
 
 <body>
     <div class="container">
-        <h1>Welcome.</h1>
+        <h1 style="color:blue; font-family:Abyssinica SIL;">Welcome </h1>
+
         <div id="nameInput" class="input-group-lg center-block helloInput">
+            <p class="lead">I am Denito</p>
+            <img src="static/denito.jpg" class="img-responsive img-circle">
+            <p class="lead">It will be good if I get to know you, so</p>
+
             <p class="lead">What is your name?</p>
             <input id="user_name" type="text" class="form-control" placeholder="name" aria-describedby="sizing-addon1" value="" />
+            <p class="lead">Thanks for your input</p>
+            <img src="static/emoji2.jpg" class="img-responsive img-circle">
+
         </div>
+        <div class="row">
+            <div class="col-md-4"><img src="static/emoji7.jpg" class="img-responsive">
+            </div>
+            <div class="col-md-8">
+                <p class="lead">Contact me though...</p>
+                <ul>
+                    <li class="text-info">denniskamau3@gmail.com</li>
+                    <li class="text-info">+254 700184646</li>
+                </ul>
+                <a href="https://www.facebook.com/dennis.kamau.900" target="_blank"><img src="static/facebook.png" class="img-fluid img-responsive " height="100px" width="100px"></a>
+                <a href="https://github.com/Denniskamau" target="_blank"><img src="static/git.png" class="img-responsive img-fluid" height="100px" width="100px"></a>
+                <p class="lead">...promise not to misuse your contact info ...</p>
+            </div>
+        </div>
+
+
+
+
+
+
         <p id="response" class="lead text-center"></p>
 
         <p id="databaseNames" class="lead text-center"></p>
+
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -29,39 +58,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-    	//Submit data when enter key is pressed
+        //Submit data when enter key is pressed
         $('#user_name').keydown(function(e) {
-        	var name = $('#user_name').val();
+            var name = $('#user_name').val();
             if (e.which == 13 && name.length > 0) { //catch Enter key
-            	//POST request to API to create a new visitor entry in the database
+                //POST request to API to create a new visitor entry in the database
                 $.ajax({
-				  method: "POST",
-				  url: "./api/visitors",
-				  contentType: "application/json",
-				  data: JSON.stringify({name: name })
-				})
-                .done(function(data) {
-                    $('#response').html(data);
-                    $('#nameInput').hide();
-                    getNames();
-                });
+                        method: "POST",
+                        url: "./api/visitors",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            name: name
+                        })
+                    })
+                    .done(function(data) {
+                        $('#response').html(data);
+                        $('#nameInput').hide();
+                        getNames();
+                    });
             }
         });
 
         //Retreive all the visitors from the database
-        function getNames(){
-          $.get("./api/visitors")
-              .done(function(data) {
-                  if(data.length > 0) {
-                    $('#databaseNames').html("Database contents: " + JSON.stringify(data));
-                  }
-              });
-          }
+        function getNames() {
+            $.get("./api/visitors")
+                .done(function(data) {
+                    if (data.length > 0) {
+                        $('#databaseNames').html("Database contents: " + JSON.stringify(data));
+                    }
+                });
+        }
 
-          //Call getNames on page load.
-          getNames();
-
-
+        //Call getNames on page load.
+        getNames();
     </script>
 </body>
 
