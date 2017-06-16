@@ -53,7 +53,7 @@ def home():
 @app.route('/api/visitors', methods=['GET'])
 def get_visitor():
     if client:
-        return jsonify(list(map(lambda doc: doc['name'], db)))
+        return jsonify(list(map(lambda doc: sanitize_input(doc['name']), db)))
     else:
         print('No database')
         return jsonify([])
@@ -71,14 +71,14 @@ def get_visitor():
 #  */
 @app.route('/api/visitors', methods=['POST'])
 def put_visitor():
-    user = sanitize_input(request.json['name'])
+    sanitized_user = sanitize_input(request.json['name'])
     if client:
-        data = {'name':user}
+        data = {'name':request.json['name']}
         db.create_document(data)
-        return 'Hello %s! I added you to the database.' % user
+        return 'Hello %s! I added you to the database.' % sanitized_user
     else:
         print('No database')
-        return 'Hello %s!' % user
+        return 'Hello %s!' % sanitized_user
 
 # /**
 #  * Replace common html entities used in XSS attacks
