@@ -27,6 +27,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="static/antixss.js" type="text/javascript"></script>
 
     <script>
     	//Submit data when enter key is pressed
@@ -41,7 +42,7 @@
 				  data: JSON.stringify({name: name })
 				})
                 .done(function(data) {
-                    $('#response').html(data);
+                    $('#response').html(AntiXSS.sanitizeInput(data));
                     $('#nameInput').hide();
                     getNames();
                 });
@@ -53,6 +54,9 @@
           $.get("./api/visitors")
               .done(function(data) {
                   if(data.length > 0) {
+                    data.forEach(function(element, index) {
+                      data[index] = AntiXSS.sanitizeInput(element)
+                    });
                     $('#databaseNames').html("Database contents: " + JSON.stringify(data));
                   }
               });

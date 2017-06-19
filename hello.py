@@ -46,7 +46,7 @@ def home():
 # /* Endpoint to greet and add a new visitor to database.
 # * Send a POST request to localhost:8080/api/visitors with body
 # * {
-# * 	"name": "Bob"
+# *     "name": "Bob"
 # * }
 # */
 @app.route('/api/visitors', methods=['GET'])
@@ -72,7 +72,7 @@ def get_visitor():
 def put_visitor():
     user = request.json['name']
     if client:
-        data = {'name':request.json['name']}
+        data = {'name':user}
         db.create_document(data)
         return 'Hello %s! I added you to the database.' % user
     else:
