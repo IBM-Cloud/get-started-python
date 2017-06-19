@@ -4,7 +4,6 @@ import atexit
 import cf_deployment_tracker
 import os
 import json
-import re
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
@@ -53,7 +52,7 @@ def home():
 @app.route('/api/visitors', methods=['GET'])
 def get_visitor():
     if client:
-        return jsonify(list(map(lambda doc: sanitize_input(doc['name']), db)))
+        return jsonify(list(map(lambda doc: doc['name'], db)))
     else:
         print('No database')
         return jsonify([])
@@ -71,23 +70,14 @@ def get_visitor():
 #  */
 @app.route('/api/visitors', methods=['POST'])
 def put_visitor():
-    sanitized_user = sanitize_input(request.json['name'])
+    user = request.json['name']
     if client:
-        data = {'name':request.json['name']}
+        data = {'name':user}
         db.create_document(data)
-        return 'Hello %s! I added you to the database.' % sanitized_user
+        return 'Hello %s! I added you to the database.' % user
     else:
         print('No database')
-        return 'Hello %s!' % sanitized_user
-
-# /**
-#  * Replace common html entities used in XSS attacks
-#  */
-def sanitize_input(str):
-    result = re.sub(r'&(?!amp;|lt;|gt;)', '&amp;', str)
-    result = re.sub(r'<', '&lt;', result)
-    result = re.sub(r'>', '&gt;', result)
-    return result
+        return 'Hello %s!' % user
 
 @atexit.register
 def shutdown():
