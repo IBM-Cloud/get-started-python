@@ -36,15 +36,15 @@ elif os.path.isfile('vcap-local.json'):
         db = client.create_database(db_name, throw_on_exists=False)
 
 # On Bluemix, get the port number from the environment variable PORT
-# When running this app on the local machine, default the port to 8080
-port = int(os.getenv('PORT', 8080))
+# When running this app on the local machine, default the port to 8000
+port = int(os.getenv('PORT', 8000))
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
 # /* Endpoint to greet and add a new visitor to database.
-# * Send a POST request to localhost:8080/api/visitors with body
+# * Send a POST request to localhost:8000/api/visitors with body
 # * {
 # *     "name": "Bob"
 # * }
@@ -61,7 +61,7 @@ def get_visitor():
 #  * Endpoint to get a JSON array of all the visitors in the database
 #  * REST API example:
 #  * <code>
-#  * GET http://localhost:8080/api/visitors
+#  * GET http://localhost:8000/api/visitors
 #  * </code>
 #  *
 #  * Response:
