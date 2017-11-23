@@ -1,1 +1,1 @@
-web: python hello.py
+web: python -m flask run -h 0.0.0.0 -p 8080
