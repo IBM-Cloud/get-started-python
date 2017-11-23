@@ -79,6 +79,14 @@ cf push
 
 This can take a minute. If there is an error in the deployment process you can use the command `cf logs <Your-App-Name> --recent` to troubleshoot.
 
+Set the `FLASK_APP` environment variable. This example is using [Python Flask][a92f987c], a Python Microframework. The `FLASK_APP` variable needs as value the name of your `hello.py` file. You can set the variable using the command
+
+```
+cf set-env GetStartedPython FLASK_APP hello.py
+```
+
+  [a92f987c]: https://github.com/pallets/flask "Flask"
+
 When deployment completes you should see a message indicating that your app is running.  View your app at the URL listed in the output of the push command.  You can also issue the
   ```
 cf apps
