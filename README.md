@@ -14,7 +14,7 @@ You'll need the following:
 
 Now you're ready to start working with the app. Clone the repo and change to the directory where the sample app is located.
   ```
-git clone https://github.com/IBM-Bluemix/get-started-python
+git clone https://github.com/IBM-Cloud/get-started-python
 cd get-started-python
   ```
 
