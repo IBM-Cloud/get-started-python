@@ -1,3 +1,2 @@
 Flask==0.12.2
-cf-deployment-tracker==1.0.4
 cloudant==2.4.0

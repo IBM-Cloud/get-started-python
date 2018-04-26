@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello World</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.messagestore.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.fallbacks.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.language.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.parser.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.emitter.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
+    <script src="antixss.js" type="text/javascript"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $.i18n().load( {
+                en: {
+                    "welcome": "Welcome.",
+                    "name": "name",
+                    "what_is_your_name": "What is your name?",
+                    "hello": "Hello $1",
+                    "added_to_database": "Hello $1, I've added you to the database!",
+                    "database_contents": "Database contents: "
+                },
+                ja: {
+                    "welcome": "ようこそ。",
+                    "name": "名前",
+                    "what_is_your_name": "お名前を教えてください。",
+                    "hello": "こんにちは $1",
+                    "added_to_database": "こんにちは $1 さん、あなたをデータベースに追加しました。",
+                    "database_contents": "データベースの内容: "
+                }
+            } );
+            $('body').i18n();
+            $('#user_name').attr("placeholder", $.i18n('name') );
+        });
+        </script>
+
+</head>
+
+<body>
+    <div class="container" id="container">
+        <h1 data-i18n="welcome"></h1> <!- Welcome ->
+        <div id="nameInput" class="input-group-lg center-block helloInput">
+            <p class="lead" data-i18n="what_is_your_name"></p>
+            <input id="user_name" type="text" class="form-control" aria-describedby="sizing-addon1" value="" />
+        </div>
+        <p id="response" class="lead text-center"></p>
+
+        <p id="databaseNames" class="lead text-center"></p>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <span><a href="https://console.bluemix.net/docs/tutorials/index.html" target="_blank">Looking for more tutorials?</a></span>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>
+
+
+<script>
+    	//Submit data when enter key is pressed
+        $('#user_name').keydown(function(e) {
+        	var name = $('#user_name').val();
+            if (e.which == 13 && name.length > 0) { //catch Enter key
+            	//POST request to API to create a new visitor entry in the database
+                $.ajax({
+				  method: "POST",
+				  url: "./api/visitors",
+				  contentType: "application/json",
+				  data: JSON.stringify({name: name })
+				})
+                .done(function(data) {
+                    if(data && data.name){
+                        if(data._id)
+                            $('#response').html($.i18n('added_to_database', AntiXSS.sanitizeInput(data.name)));
+                        else
+                            $('#response').html($.i18n('hello', AntiXSS.sanitizeInput(data.name))); 
+                    }
+                    else {
+                        $('#response').html(AntiXSS.sanitizeInput(data));
+                    }
+                    $('#nameInput').hide();
+                    getNames();
+                });
+            }
+        });
+
+        //Retrieve all the visitors from the database
+        function getNames(){
+          $.get("./api/visitors")
+              .done(function(data) {
+                  if(data.length > 0) {
+                    data.forEach(function(element, index) {
+                      data[index] = AntiXSS.sanitizeInput(element)
+                    });
+                    $('#databaseNames').html($.i18n('database_contents') + JSON.stringify(data));
+                  }
+              });
+          }
+
+          //Call getNames on page load.
+          getNames();
+
+
+    </script>
