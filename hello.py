@@ -1,14 +1,10 @@
 from cloudant import Cloudant
 from flask import Flask, render_template, request, jsonify
 import atexit
-import cf_deployment_tracker
 import os
 import json
 
-# Emit Bluemix deployment event
-cf_deployment_tracker.track()
-
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 db_name = 'mydb'
 client = None
@@ -35,13 +31,13 @@ elif os.path.isfile('vcap-local.json'):
         client = Cloudant(user, password, url=url, connect=True)
         db = client.create_database(db_name, throw_on_exists=False)
 
-# On Bluemix, get the port number from the environment variable PORT
+# On IBM Cloud Cloud Foundry, get the port number from the environment variable PORT
 # When running this app on the local machine, default the port to 8000
 port = int(os.getenv('PORT', 8000))
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def root():
+    return app.send_static_file('index.html')
 
 # /* Endpoint to greet and add a new visitor to database.
 # * Send a POST request to localhost:8000/api/visitors with body
@@ -71,13 +67,14 @@ def get_visitor():
 @app.route('/api/visitors', methods=['POST'])
 def put_visitor():
     user = request.json['name']
+    data = {'name':user}
     if client:
-        data = {'name':user}
-        db.create_document(data)
-        return 'Hello %s! I added you to the database.' % user
+        my_document = db.create_document(data)
+        data['_id'] = my_document['_id']
+        return jsonify(data)
     else:
         print('No database')
-        return 'Hello %s!' % user
+        return jsonify(data)
 
 @atexit.register
 def shutdown():
