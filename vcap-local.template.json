@@ -9,6 +9,14 @@
           },
           "label": "cloudantNoSQLDB"
         }
+      ],
+      "compose-for-mongodb": [
+        {
+          "credentials": {
+            "uri": "MONGO_DATABASE_URI"
+          },
+          "label": "compose-for-mongodb"
+        }
       ]
     }
-  }
+}
