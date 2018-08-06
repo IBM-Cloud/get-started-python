@@ -1,0 +1,43 @@
+# Update <REGISTRY> <NAMESPACE> values before use
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-started-python
+  labels:
+    app: get-started-python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-started-python
+  template:
+    metadata:
+      labels:
+        app: get-started-python
+    spec:
+      containers:
+      - name: get-started-python
+        image: <REGISTRY>/<NAMESPACE>/myapp:v1.0.0
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Always
+        env:
+        - name: CLOUDANT_URL
+          valueFrom:
+            secretKeyRef:
+              name: cloudant
+              key: url
+              optional: true
+        - name: CLOUDANT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cloudant
+              key: username
+              optional: true
+        - name: CLOUDANT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloudant
+              key: password
+              optional: true
+
