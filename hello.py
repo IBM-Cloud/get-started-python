@@ -65,6 +65,11 @@ if 'VCAP_SERVICES' in os.environ:
         db = client.create_database(db_name, throw_on_exists=False)
         vendor_name = 'cloudant'
 
+elif "CLOUDANT_URL" in os.environ:
+    client = Cloudant(os.environ['CLOUDANT_USERNAME'], os.environ['CLOUDANT_PASSWORD'], url=os.environ['CLOUDANT_URL'], connect=True)
+    db = client.create_database(db_name, throw_on_exists=False)
+    vendor_name = 'cloudant'
+
 elif os.path.isfile('vcap-local.json'):
     with open('vcap-local.json') as f:
         vcap = json.load(f)
