@@ -52,7 +52,7 @@ The manifest.yml includes basic information about your app, such as the name, ho
 
 ## 4. Deploy the app
 
-You can use the Cloud Foundry CLI to deploy apps.
+You can use the Cloud Foundry CLI to deploy apps. To install CF-CLI follow the instructions [here](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html).
 
 Choose your API endpoint
    ```
