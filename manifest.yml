@@ -2,4 +2,6 @@
 applications:
  - name: GetStartedPython
    random-route: true
+   buildpacks:
+   - https://github.com/cloudfoundry/python-buildpack.git
    memory: 128M
