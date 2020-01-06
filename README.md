@@ -137,3 +137,11 @@ cf push
   ```
 
   View your app at the URL listed in the output of the push command, for example, *myUrl.mybluemix.net*.
+  
+  
+  ## 7. Dockerize the application
+
+    ```
+       docker build -t iisc-python .
+       docker run -p 8000:8000 iisc-python
+   ```    
