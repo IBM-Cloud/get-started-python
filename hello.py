@@ -82,6 +82,7 @@ def put_visitor():
 @atexit.register
 def shutdown():
     if client:
+        client.delete_database(db_name)
         client.disconnect()
 
 if __name__ == '__main__':
