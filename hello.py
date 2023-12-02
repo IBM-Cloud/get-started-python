@@ -86,3 +86,18 @@ def shutdown():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)
+
+
+
+
+
+# Calculate the total number of samples
+total_samples = len(train_data) + len(test_data) + len(dev_data)
+
+# Get the image dimensions (assuming all images have the same size)
+image_height, image_width = train_data[0].shape[:2]  # Assuming the shape is (height, width, channels)
+
+# Print statements
+print(f"Total number of samples in the dataset: {total_samples}")
+print(f"Size of the images in the dataset: {image_height}x{image_width}")
+

@@ -1,18 +1,13 @@
-FROM python:2-alpine
+from sklearn.model_selection import train_test_split
 
-COPY ./requirements.txt /app/requirements.txt
+def split_train_dev_test(X, y, test_size, dev_size):
+    # Split into train+dev and test sets first
+    X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=test_size)
 
-WORKDIR /app
+    # Compute actual dev size relative to the combined train+dev set
+    actual_dev_size = dev_size / (1 - test_size)
+    
+    # Split the train+dev set into separate training and dev sets
+    X_train, X_dev, y_train, y_dev = train_test_split(X_temp, y_temp, test_size=actual_dev_size)
 
-RUN apk --update add python py-pip openssl ca-certificates py-openssl wget bash linux-headers
-RUN apk --update add --virtual build-dependencies libffi-dev openssl-dev python-dev py-pip build-base \
-  && pip install --upgrade pip \
-  && pip install --upgrade pipenv\
-  && pip install --upgrade -r /app/requirements.txt\
-  && apk del build-dependencies
-
-COPY . /app
-
-ENTRYPOINT [ "python" ]
-
-CMD [ "hello.py" ]
+    return X_train, X_dev, X_test, y_train, y_dev, y_test
